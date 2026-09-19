@@ -81,7 +81,6 @@ Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
 - 🐘 **PostgreSQL** — couche staging (ER) + datamart (star schema)
 - ⚡ **ClickHouse** — télémétrie haute fréquence (série temporelle)
 - 🔒 **Sécurité** — chiffrement en transit (TLS) et au repos, segmentation IT/OT (IEC 62443) côté Edge, IAM, vRack, VPN site-à-site (données) et VPN dédié aux sous-traitants de maintenance
-- 🎨 **python-pptx** — génération des diagrammes
 
 ## 📦 Contenu
 
