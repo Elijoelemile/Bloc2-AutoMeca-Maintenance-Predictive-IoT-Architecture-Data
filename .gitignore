@@ -1,0 +1,12 @@
+# Dataset source (volumineux, non versionné — voir README pour la source Kaggle)
+data/
+*.csv
+*.parquet
+
+# Fichiers temporaires / verrouillage Office
+~$*
+*.tmp
+
+# Divers OS
+.DS_Store
+Thumbs.db
