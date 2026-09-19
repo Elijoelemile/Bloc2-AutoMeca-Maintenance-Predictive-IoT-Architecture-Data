@@ -71,7 +71,7 @@ Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
     └── dictionnaire_donnees.md             # dictionnaire complet des tables/colonnes
 ```
 
-> [!TIP]
+> [!NOTE]
 > `data/` n'est pas versionné (voir `.gitignore`) : le dataset s'obtient sur Kaggle, [arnabbiswas1/microsoft-azure-predictive-maintenance](https://www.kaggle.com/datasets/arnabbiswas1/microsoft-azure-predictive-maintenance).
 
 ## 🛠️ Stack technique
