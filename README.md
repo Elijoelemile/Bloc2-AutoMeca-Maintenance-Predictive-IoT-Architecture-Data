@@ -59,10 +59,11 @@ Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
 │   ├── PdM_maint.csv
 │   └── PdM_telemetry.csv
 ├── diagram/
-│   ├── architecture-edge-cloud.pptx        # source éditable, 2 pages
-│   ├── architecture-edge-cloud.pdf         # les 2 pages en un seul fichier
+│   ├── architecture-edge-cloud.pptx        # source éditable, 3 pages
+│   ├── architecture-edge-cloud.pdf         # les 3 pages en un seul fichier
 │   ├── 01_architecture-edge-cloud.png      # page 1 : architecture Edge/Cloud
-│   └── 02_explication-detaillee-mcd-schema-etoile.png  # page 2 : MCD
+│   ├── 02_modele-conceptuel-mcd.png        # page 2 : MCD (notation Merise)
+│   └── 03_schema-etoile-physique.png       # page 3 : star schema physique (fait unifié + dimensions)
 ├── database_scripts/
 │   ├── 01_staging.sql                      # couche ER, fidèle aux sources
 │   ├── 02_datamart.sql                     # star schema (PostgreSQL)
@@ -84,6 +85,6 @@ Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
 
 ## 📦 Contenu
 
-- **`diagram/`** — architecture Edge/Cloud (sources, broker d'ingestion, stockage, bande transverse sécurité/supervision) et modèle conceptuel de données (MCD, notation Merise : entités, associations, cardinalités)
+- **`diagram/`** — architecture Edge/Cloud (sources, broker d'ingestion, stockage, bande transverse sécurité/supervision), modèle conceptuel (MCD, notation Merise) et schéma en étoile physique (table de faits unifiée + dimensions)
 - **`database_scripts/`** — DDL des 3 couches : staging (ER), datamart (star schema, table de faits unifiée `fait_evenement`), télémétrie (ClickHouse)
 - **`data_dictionary/`** — dictionnaire de données : chaque table, colonne, type, contrainte, description, exemple
