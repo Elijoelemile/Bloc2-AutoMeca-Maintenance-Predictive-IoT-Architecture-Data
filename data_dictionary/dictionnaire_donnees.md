@@ -1,4 +1,4 @@
-# Dictionnaire de données — Bloc 2 — AutoMeca Systems
+# Dictionnaire de données — AutoMeca Systems
 
 Dataset source : Microsoft Azure Predictive Maintenance (Kaggle,
 `arnabbiswas1/microsoft-azure-predictive-maintenance`), 5 fichiers,
