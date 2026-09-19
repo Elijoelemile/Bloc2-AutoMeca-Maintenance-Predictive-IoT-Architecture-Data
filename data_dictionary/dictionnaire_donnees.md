@@ -1,8 +1,15 @@
 # Dictionnaire de données — AutoMeca Systems
 
+![PostgreSQL](https://img.shields.io/badge/staging%20%2B%20datamart-PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![ClickHouse](https://img.shields.io/badge/t%C3%A9l%C3%A9metrie-ClickHouse-FFCC01?style=flat-square&logo=clickhouse&logoColor=black)
+![Kaggle](https://img.shields.io/badge/dataset-Kaggle-20BEFF?style=flat-square&logo=kaggle&logoColor=white)
+![Tables](https://img.shields.io/badge/tables-11%20%2B%201%20vue-6f42c1?style=flat-square)
+
 Dataset source : Microsoft Azure Predictive Maintenance (Kaggle,
 `arnabbiswas1/microsoft-azure-predictive-maintenance`), 5 fichiers,
 100 machines, période 2014-06-01 à 2016-01-01.
+
+**Légende :** 🔑 clé primaire · 🔗 clé étrangère · ⏱️ série temporelle
 
 ## 1. Couche staging (PostgreSQL, schéma `staging`)
 
@@ -14,7 +21,7 @@ Grain : 1 ligne / machine. 100 lignes.
 
 | Colonne | Type | Contrainte | Description | Exemple |
 |---|---|---|---|---|
-| machine_id | SMALLINT | PK | Identifiant machine | 1 |
+| machine_id | SMALLINT | 🔑 PK | Identifiant machine | 1 |
 | model | VARCHAR(20) | NOT NULL | Modèle de la machine | model3 |
 | age | SMALLINT | NOT NULL, 0-40 | Âge en années | 18 |
 
@@ -23,20 +30,22 @@ Grain : 1 ligne / événement d'erreur. ~3 900 lignes.
 
 | Colonne | Type | Contrainte | Description | Exemple |
 |---|---|---|---|---|
-| id_erreur | BIGSERIAL | PK | Clé technique | 1 |
+| id_erreur | BIGSERIAL | 🔑 PK | Clé technique | 1 |
 | datetime_evt | TIMESTAMP | NOT NULL | Horodatage de l'erreur | 2015-01-03 07:00:00 |
-| machine_id | SMALLINT | FK → machines | Machine concernée | 1 |
+| machine_id | SMALLINT | 🔗 FK → machines | Machine concernée | 1 |
 | error_id | VARCHAR(10) | NOT NULL | Code d'erreur (error1-error5) | error1 |
 
 ### staging.pannes — source `PdM_failures.csv`
-Grain : 1 ligne / panne. ~760 lignes. **Table cible du futur modèle
-prédictif (Bloc 3/4)**.
+Grain : 1 ligne / panne. ~760 lignes.
+
+> [!IMPORTANT]
+> Table cible du futur modèle prédictif (Bloc 3/4) — c'est elle que le modèle cherchera à anticiper.
 
 | Colonne | Type | Contrainte | Description | Exemple |
 |---|---|---|---|---|
-| id_panne | BIGSERIAL | PK | Clé technique | 1 |
+| id_panne | BIGSERIAL | 🔑 PK | Clé technique | 1 |
 | datetime_evt | TIMESTAMP | NOT NULL | Horodatage de la panne | 2015-01-05 06:00:00 |
-| machine_id | SMALLINT | FK → machines | Machine concernée | 1 |
+| machine_id | SMALLINT | 🔗 FK → machines | Machine concernée | 1 |
 | failure_comp | VARCHAR(10) | NOT NULL | Composant en panne (comp1-comp4) | comp4 |
 
 ### staging.maintenances — source `PdM_maint.csv`
@@ -44,9 +53,9 @@ Grain : 1 ligne / intervention planifiée. ~3 300 lignes.
 
 | Colonne | Type | Contrainte | Description | Exemple |
 |---|---|---|---|---|
-| id_maintenance | BIGSERIAL | PK | Clé technique | 1 |
+| id_maintenance | BIGSERIAL | 🔑 PK | Clé technique | 1 |
 | datetime_evt | TIMESTAMP | NOT NULL | Horodatage de la maintenance | 2014-06-01 06:00:00 |
-| machine_id | SMALLINT | FK → machines | Machine concernée | 1 |
+| machine_id | SMALLINT | 🔗 FK → machines | Machine concernée | 1 |
 | comp | VARCHAR(10) | NOT NULL | Composant remplacé (comp1-comp4) | comp2 |
 
 ---
@@ -63,7 +72,7 @@ prédictif).
 ### datamart.dim_date
 | Colonne | Type | Description |
 |---|---|---|
-| id_date | INT PK | Format AAAAMMJJ |
+| id_date | INT 🔑 PK | Format AAAAMMJJ |
 | date_complete | DATE | Date calendaire |
 | annee, trimestre, mois, jour | SMALLINT | Attributs calendaires |
 | jour_semaine | VARCHAR(10) | Lundi, mardi, ... |
@@ -72,7 +81,7 @@ prédictif).
 ### datamart.dim_machine
 | Colonne | Type | Description |
 |---|---|---|
-| id_machine | SERIAL PK | Clé de substitution |
+| id_machine | SERIAL 🔑 PK | Clé de substitution |
 | machine_id_nat | SMALLINT | Clé naturelle (= staging.machines.machine_id) |
 | model | VARCHAR(20) | Modèle |
 | age | SMALLINT | Âge en années |
@@ -81,7 +90,7 @@ prédictif).
 ### datamart.dim_type_evenement
 | Colonne | Type | Description |
 |---|---|---|
-| id_type_evenement | SMALLSERIAL PK | Clé de substitution |
+| id_type_evenement | SMALLSERIAL 🔑 PK | Clé de substitution |
 | code_type | VARCHAR(20) | ERREUR \| PANNE \| MAINTENANCE |
 | libelle | VARCHAR(60) | Libellé lisible |
 
@@ -92,21 +101,20 @@ sous une clé de substitution commune.
 
 | Colonne | Type | Description |
 |---|---|---|
-| id_code | SERIAL PK | Clé de substitution |
-| id_type_evenement | SMALLINT FK | Type d'événement associé |
+| id_code | SERIAL 🔑 PK | Clé de substitution |
+| id_type_evenement | SMALLINT 🔗 FK | Type d'événement associé |
 | code_brut | VARCHAR(10) | error1-5 ou comp1-4 |
 | libelle | VARCHAR(60) | Libellé lisible |
 
 ### datamart.dim_operateur
-Opérateur/technicien ayant réalisé une intervention. **Non peuplée** :
-le dataset source (Kaggle) ne contient aucune donnée opérateur dans
-`PdM_errors.csv`, `PdM_failures.csv` ni `PdM_maint.csv`. Table
-modélisée pour anticiper une future intégration GMAO, où cette
-information existerait.
+Opérateur/technicien ayant réalisé une intervention.
+
+> [!NOTE]
+> Non peuplée : le dataset source (Kaggle) ne contient aucune donnée opérateur dans `PdM_errors.csv`, `PdM_failures.csv` ni `PdM_maint.csv`. Table modélisée pour anticiper une future intégration GMAO, où cette information existerait.
 
 | Colonne | Type | Description |
 |---|---|---|
-| id_operateur | SERIAL PK | Clé de substitution |
+| id_operateur | SERIAL 🔑 PK | Clé de substitution |
 | matricule | VARCHAR(20) | Matricule (GMAO) |
 | nom | VARCHAR(100) | Nom de l'opérateur |
 | equipe | VARCHAR(50) | Équipe/atelier |
@@ -117,13 +125,13 @@ Grain : 1 ligne = 1 événement machine (erreur, panne ou maintenance)
 
 | Colonne | Type | Description |
 |---|---|---|
-| id_evenement | BIGSERIAL PK | Clé technique |
-| id_date | INT FK → dim_date | Jour de l'événement |
+| id_evenement | BIGSERIAL 🔑 PK | Clé technique |
+| id_date | INT 🔗 FK → dim_date | Jour de l'événement |
 | datetime_evt | TIMESTAMP | Horodatage précis |
-| id_machine | INT FK → dim_machine | Machine concernée |
-| id_type_evenement | SMALLINT FK → dim_type_evenement | Nature de l'événement |
-| id_code | INT FK → dim_code_evenement | Code précis (error*/comp*) |
-| id_operateur | INT FK → dim_operateur, nullable | NULL pour ERREUR (pas d'intervention) ; non renseigné pour PANNE/MAINTENANCE (absent du dataset source) |
+| id_machine | INT 🔗 FK → dim_machine | Machine concernée |
+| id_type_evenement | SMALLINT 🔗 FK → dim_type_evenement | Nature de l'événement |
+| id_code | INT 🔗 FK → dim_code_evenement | Code précis (error*/comp*) |
+| id_operateur | INT 🔗 FK → dim_operateur, nullable | NULL pour ERREUR (pas d'intervention) ; non renseigné pour PANNE/MAINTENANCE (absent du dataset source) |
 | source_fichier | VARCHAR(40) | Traçabilité (nom du CSV source) |
 
 ### datamart.v_interventions (vue)
@@ -134,7 +142,7 @@ maintenance sans dupliquer le fait unifié.
 
 ---
 
-## 3. Télémétrie — série temporelle (ClickHouse)
+## 3. Télémétrie — série temporelle ⏱️ (ClickHouse)
 
 ### automeca.telemetrie — source `PdM_telemetry.csv`
 Grain : 1 ligne / machine / heure. 876 100 lignes/an.
