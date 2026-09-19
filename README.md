@@ -1,5 +1,11 @@
 # AutoMeca Systems — Maintenance prédictive IoT
 
+![OVHcloud](https://img.shields.io/badge/cloud-OVHcloud%20(UE)-000E9C?style=flat-square)
+![PostgreSQL](https://img.shields.io/badge/datamart-PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![ClickHouse](https://img.shields.io/badge/t%C3%A9l%C3%A9metrie-ClickHouse-FFCC01?style=flat-square&logo=clickhouse&logoColor=black)
+![Kafka](https://img.shields.io/badge/ingestion-Kafka-231F20?style=flat-square&logo=apachekafka&logoColor=white)
+![Kaggle](https://img.shields.io/badge/dataset-Kaggle-20BEFF?style=flat-square&logo=kaggle&logoColor=white)
+
 AutoMeca Systems conçoit des équipements de freinage pour l'industrie
 automobile. Ce projet met en place une plateforme de données pour la
 maintenance prédictive de son parc de machines de production : capteurs
@@ -39,12 +45,10 @@ segmentation IT/OT, IAM, VPN dédié) et la supervision de
 l'infrastructure — détaillées dans la bande transverse du diagramme
 d'architecture.
 
-Le star schema modélise aussi une dimension `opérateur` (qui a réalisé
-une intervention), anticipée pour une future intégration GMAO : le
-dataset source ne contient aucune donnée opérateur, la dimension est
-donc présente mais non peuplée dans cette itération.
+> [!NOTE]
+> Le star schema modélise aussi une dimension `opérateur` (qui a réalisé une intervention), anticipée pour une future intégration GMAO : le dataset source ne contient aucune donnée opérateur, la dimension est donc présente mais non peuplée dans cette itération.
 
-## Structure
+## 🗂️ Structure
 
 ```
 Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
@@ -67,19 +71,19 @@ Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
     └── dictionnaire_donnees.md             # dictionnaire complet des tables/colonnes
 ```
 
-`data/` n'est pas versionné (voir `.gitignore`) : le dataset s'obtient
-sur Kaggle, [arnabbiswas1/microsoft-azure-predictive-maintenance](https://www.kaggle.com/datasets/arnabbiswas1/microsoft-azure-predictive-maintenance).
+> [!TIP]
+> `data/` n'est pas versionné (voir `.gitignore`) : le dataset s'obtient sur Kaggle, [arnabbiswas1/microsoft-azure-predictive-maintenance](https://www.kaggle.com/datasets/arnabbiswas1/microsoft-azure-predictive-maintenance).
 
-## Stack technique
+## 🛠️ Stack technique
 
-- **OVHcloud** (région UE) — Object Storage (S3-compatible, multi-format), Kafka managé, PostgreSQL managé, ClickHouse managé, IAM, vRack
-- **Kafka managé** — broker d'ingestion (pont MQTT → Kafka), absorbe la vélocité des flux capteurs
-- **PostgreSQL** — couche staging (ER) + datamart (star schema)
-- **ClickHouse** — télémétrie haute fréquence (série temporelle)
-- **Sécurité** — chiffrement en transit (TLS) et au repos, segmentation IT/OT (IEC 62443) côté Edge, IAM, vRack, VPN site-à-site (données) et VPN dédié aux sous-traitants de maintenance
-- **python-pptx** — génération des diagrammes
+- ☁️ **OVHcloud** (région UE) — Object Storage (S3-compatible, multi-format), Kafka managé, PostgreSQL managé, ClickHouse managé, IAM, vRack
+- 📡 **Kafka managé** — broker d'ingestion (pont MQTT → Kafka), absorbe la vélocité des flux capteurs
+- 🐘 **PostgreSQL** — couche staging (ER) + datamart (star schema)
+- ⚡ **ClickHouse** — télémétrie haute fréquence (série temporelle)
+- 🔒 **Sécurité** — chiffrement en transit (TLS) et au repos, segmentation IT/OT (IEC 62443) côté Edge, IAM, vRack, VPN site-à-site (données) et VPN dédié aux sous-traitants de maintenance
+- 🎨 **python-pptx** — génération des diagrammes
 
-## Contenu
+## 📦 Contenu
 
 - **`diagram/`** — architecture Edge/Cloud (sources, broker d'ingestion, stockage, bande transverse sécurité/supervision) et modèle conceptuel de données (MCD, notation Merise : entités, associations, cardinalités)
 - **`database_scripts/`** — DDL des 3 couches : staging (ER), datamart (star schema, table de faits unifiée `fait_evenement`), télémétrie (ClickHouse)
