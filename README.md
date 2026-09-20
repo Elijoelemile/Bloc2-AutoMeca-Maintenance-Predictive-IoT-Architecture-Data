@@ -17,7 +17,7 @@ Le projet est organisé en dépôts indépendants, un par domaine :
 | Dépôt | Contenu |
 |---|---|
 | [Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data](https://github.com/<user>/Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data) | Architecture de données : diagramme Edge/Cloud, modèle conceptuel, star schema, dictionnaire de données |
-| [bloc3-pipeline-donnees](https://github.com/<user>/bloc3-pipeline-donnees) | Pipelines d'ingestion et de transformation des données |
+| [Bloc3-AutoMeca-Maintenance-Predictive-IoT-Pipeline-Data](https://github.com/<user>/Bloc3-AutoMeca-Maintenance-Predictive-IoT-Pipeline-Data) | Pipelines d'ingestion et de transformation des données (ELT) |
 | [bloc4-solution-ia](https://github.com/<user>/bloc4-solution-ia) | Modèle de maintenance prédictive et déploiement |
 | [bloc4-cicd](https://github.com/<user>/bloc4-cicd) | Intégration et déploiement continus |
 
