@@ -83,8 +83,23 @@ Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
 - ⚡ **ClickHouse** (auto-hébergé, petite instance Compute) — télémétrie haute fréquence (série temporelle)
 - 🔒 **Sécurité** — chiffrement en transit (TLS) et au repos, segmentation IT/OT (IEC 62443) côté Edge, IAM, vRack, VPN site-à-site (données) et VPN dédié aux sous-traitants de maintenance
 
-> [!NOTE]
-> **Kafka et ClickHouse auto-hébergés, pas managés** — les offres managées OVHcloud pour ces deux services démarrent à plusieurs centaines de dollars par mois (Kafka : ~139 $/nœud, minimum 3 nœuds ; ClickHouse : ~213 $/nœud) pensées pour de la haute disponibilité en production. Disproportionné pour ce cas fictif de certification : les deux tournent à la place sur de petites instances Compute OVHcloud, mêmes principes de sécurité (vRack, chiffrement) mais sans le coût du multi-nœud managé. PostgreSQL managé reste à un tarif d'entrée de gamme accessible (~28 $/mois) et n'a pas cette contrainte.
+## 💶 Contraintes de coût et choix d'infrastructure OVHcloud
+
+Le sujet impose un **budget limité** (section 1.2). Cette contrainte n'est pas restée théorique : les choix d'infrastructure ci-dessous en découlent directement, avec des tarifs OVHcloud réels vérifiés (pas des estimations), et sont documentés ici pour que le raisonnement soit traçable — référencé depuis les README des dépôts Bloc 3 et Bloc 4 (CI/CD), qui en héritent sans le dupliquer.
+
+**Cadre financier retenu** — l'offre d'essai [OVHcloud Public Cloud Free Trial](https://www.ovhcloud.com/fr/public-cloud/free-trial/) : 200 € de crédit, valable **1 mois seulement** à partir de l'activation, carte bancaire obligatoire. Ce n'est pas un palier gratuit permanent — l'infrastructure doit donc être provisionnée au dernier moment (juste avant la démonstration/soutenance) et rester sobre pour tenir dans ce budget et cette durée.
+
+**Kafka et ClickHouse auto-hébergés, pas managés** — les offres managées OVHcloud démarrent à plusieurs centaines de dollars par mois chacune :
+- Kafka managé : ~139 $/nœud/mois, **minimum 3 nœuds** → ~417 $/mois
+- ClickHouse managé : ~213 $/nœud/mois (le plan à 1 seul nœud dépasse déjà, à lui seul, tout le crédit d'essai)
+
+Ces deux offres sont pensées pour de la haute disponibilité multi-zone en production réelle — disproportionné pour ce cas fictif de certification, et incompatible avec un budget de 200 €/mois. Les deux tournent donc à la place sur de petites instances Compute OVHcloud auto-gérées, mêmes principes de sécurité (vRack, chiffrement) mais sans le coût du multi-nœud managé. PostgreSQL managé, lui, reste à un tarif d'entrée de gamme accessible (~28 $/mois pour 80 Go / 4 Go RAM) et n'a pas cette contrainte.
+
+**Une seule instance Compute partagée, pas plusieurs** — Kafka, ClickHouse **et** les conteneurs du Bloc 4 (API de prédiction + interface de supervision) tournent sur la **même** petite instance Compute (au lieu d'une instance dédiée par service), pour diviser le coût par autant de services consolidés plutôt que de le multiplier.
+
+**Pas de Kubernetes managé, pas de registre de conteneurs** — Kubernetes orchestre des flottes de conteneurs répartis sur plusieurs machines avec mise à l'échelle automatique ; un registre sert à faire voyager une image Docker entre la machine qui la construit et celle qui l'exécute. Aucun des deux besoins ne se pose ici : 2 conteneurs sur une seule instance, construits directement dessus (`git pull` + `docker compose build`, comme en local). Le control plane Kubernetes est certes gratuit chez OVHcloud, mais il faudrait quand même payer au moins un nœud worker (même coût qu'une instance Compute simple) pour une complexité d'orchestration inutile à cette échelle.
+
+**Conséquence opérationnelle** — même les plus petites instances Compute coûtent ~41 à 56 €/mois **si elles tournent en continu tout le mois** (tarif horaire, ~730h/mois). Avec un crédit unique d'1 mois, l'instance doit être allumée uniquement pendant les fenêtres de test/démonstration actives, puis éteinte — pas laissée tourner en permanence. Même discipline que celle déjà appliquée en local pendant le développement (conteneurs Docker jetables, vérifiés puis détruits), transposée à l'infrastructure cloud réelle.
 
 ## 📦 Contenu
 
