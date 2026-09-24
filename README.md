@@ -77,11 +77,14 @@ Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data/
 
 ## 🛠️ Stack technique
 
-- ☁️ **OVHcloud** (région UE) — Object Storage (S3-compatible, multi-format), Kafka managé, PostgreSQL managé, ClickHouse managé, IAM, vRack
-- 📡 **Kafka managé** — broker d'ingestion (pont MQTT → Kafka), absorbe la vélocité des flux capteurs
-- 🐘 **PostgreSQL** — couche staging (ER) + datamart (star schema)
-- ⚡ **ClickHouse** — télémétrie haute fréquence (série temporelle)
+- ☁️ **OVHcloud** (région UE) — Object Storage (S3-compatible, multi-format), PostgreSQL managé, instances Compute (Kafka et ClickHouse auto-hébergés), IAM, vRack
+- 📡 **Kafka** (auto-hébergé, petite instance Compute) — broker d'ingestion (pont MQTT → Kafka), absorbe la vélocité des flux capteurs
+- 🐘 **PostgreSQL managé** — couche staging (ER) + datamart (star schema)
+- ⚡ **ClickHouse** (auto-hébergé, petite instance Compute) — télémétrie haute fréquence (série temporelle)
 - 🔒 **Sécurité** — chiffrement en transit (TLS) et au repos, segmentation IT/OT (IEC 62443) côté Edge, IAM, vRack, VPN site-à-site (données) et VPN dédié aux sous-traitants de maintenance
+
+> [!NOTE]
+> **Kafka et ClickHouse auto-hébergés, pas managés** — les offres managées OVHcloud pour ces deux services démarrent à plusieurs centaines de dollars par mois (Kafka : ~139 $/nœud, minimum 3 nœuds ; ClickHouse : ~213 $/nœud) pensées pour de la haute disponibilité en production. Disproportionné pour ce cas fictif de certification : les deux tournent à la place sur de petites instances Compute OVHcloud, mêmes principes de sécurité (vRack, chiffrement) mais sans le coût du multi-nœud managé. PostgreSQL managé reste à un tarif d'entrée de gamme accessible (~28 $/mois) et n'a pas cette contrainte.
 
 ## 📦 Contenu
 
