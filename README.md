@@ -97,7 +97,7 @@ Le sujet impose un **budget limité** (section 1.2) et une **infrastructure Clou
 
 **Conséquence opérationnelle** — une instance Compute facturée à l'heure reste abordable seulement si elle n'est allumée que pendant les fenêtres de test/démonstration actives, pas laissée tourner en permanence. Même discipline que celle déjà appliquée en local pendant le développement (conteneurs Docker jetables, vérifiés puis détruits), transposée à l'infrastructure cloud réelle.
 
-**Déploiement réel effectué** — cette architecture n'est pas restée théorique : Kafka, ClickHouse et Grafana (Bloc 3) ainsi que l'API et l'interface de supervision (Bloc 4) ont été réellement déployés ensemble sur une seule instance Compute, avec une vraie prédiction de bout en bout testée avec succès (voir les README des dépôts Bloc 3 et Bloc 4 pour le détail).
+**Déploiement réel effectué** — cette architecture n'est pas restée théorique : Kafka, ClickHouse et Grafana (Bloc 3) ainsi que l'API et l'interface de supervision (Bloc 4) ont été réellement déployés ensemble sur une seule instance Compute **Scaleway** (le fournisseur cloud souverain européen retenu pour ce projet), avec une vraie prédiction de bout en bout testée avec succès (voir les README des dépôts Bloc 3 et Bloc 4 pour le détail).
 
 ## 📦 Contenu
 
