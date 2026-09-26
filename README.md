@@ -10,16 +10,20 @@ AutoMeca Systems conçoit des équipements de freinage pour l'industrie
 automobile. Ce projet met en place une plateforme de données pour la
 maintenance prédictive de son parc de machines de production : capteurs
 IoT en atelier, modélisation et stockage des données, pipelines
-d'ingestion, et déploiement d'un modèle prédictif de panne.
+d'ingestion, et déploiement d'un modèle prédictif de panne — au service
+de l'objectif métier (**-30 % d'arrêts non planifiés sur 12 mois**, voir
+Bloc 1) : l'architecture de données conçue ici (staging, star schema,
+télémétrie) est le socle sans lequel aucun modèle prédictif fiable
+n'est possible.
 
 Le projet est organisé en dépôts indépendants, un par domaine :
 
 | Dépôt | Contenu |
 |---|---|
-| [Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data](https://github.com/<user>/Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data) | Architecture de données : diagramme Edge/Cloud, modèle conceptuel, star schema, dictionnaire de données |
-| [Bloc3-AutoMeca-Maintenance-Predictive-IoT-Pipeline-Data](https://github.com/<user>/Bloc3-AutoMeca-Maintenance-Predictive-IoT-Pipeline-Data) | Pipelines d'ingestion et de transformation des données (ELT) |
-| [Bloc4-AutoMeca-Maintenance-Predictive-IoT-Solution-IA](https://github.com/<user>/Bloc4-AutoMeca-Maintenance-Predictive-IoT-Solution-IA) | Modèles de maintenance prédictive (entraînement) |
-| [Bloc4-AutoMeca-Maintenance-Predictive-IoT-CICD](https://github.com/<user>/Bloc4-AutoMeca-Maintenance-Predictive-IoT-CICD) | Intégration et déploiement continus |
+| [Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data](https://github.com/Elijoelemile/Bloc2-AutoMeca-Maintenance-Predictive-IoT-Architecture-Data) | Architecture de données : diagramme Edge/Cloud, modèle conceptuel, star schema, dictionnaire de données |
+| [Bloc3-AutoMeca-Maintenance-Predictive-IoT-Pipeline-Data](https://github.com/Elijoelemile/Bloc3-AutoMeca-Maintenance-Predictive-IoT-Pipeline-Data) | Pipelines d'ingestion et de transformation des données (ELT) |
+| [Bloc4-AutoMeca-Maintenance-Predictive-IoT-Solution-IA](https://github.com/Elijoelemile/Bloc4-AutoMeca-Maintenance-Predictive-IoT-Solution-IA) | Modèles de maintenance prédictive (entraînement) |
+| [Bloc4-AutoMeca-Maintenance-Predictive-IoT-CICD](https://github.com/Elijoelemile/Bloc4-AutoMeca-Maintenance-Predictive-IoT-CICD) | Intégration et déploiement continus |
 
 ---
 

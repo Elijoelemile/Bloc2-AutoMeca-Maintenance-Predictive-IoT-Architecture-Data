@@ -7,7 +7,10 @@
 
 Dataset source : Microsoft Azure Predictive Maintenance (Kaggle,
 `arnabbiswas1/microsoft-azure-predictive-maintenance`), 5 fichiers,
-100 machines, période 2014-06-01 à 2016-01-01.
+100 machines. Périodes réelles distinctes selon le fichier : les
+maintenances (`PdM_maint.csv`) remontent à 2014-06-01, mais la
+télémétrie et les pannes ne couvrent qu'une seule année pleine,
+2015-01-01 à 2016-01-01 — voir le détail par table ci-dessous.
 
 **Légende :** 🔑 clé primaire · 🔗 clé étrangère · ⏱️ série temporelle
 
